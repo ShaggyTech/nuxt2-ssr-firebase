@@ -1,6 +1,6 @@
 {
   "name": "Nuxt-SSR-Firebase",
-  "version": "0.2.0",
+  "version": "2.0.0",
   "description": "Nuxt.js 2 app with SSR using Firebase Cloud Functions and Firebase Hosting.",
   "license": "MIT",
   "author": "David Royer",
@@ -8,20 +8,25 @@
   "scripts": {
     "dev": "cd \"src\" && yarn dev",
     "build": "yarn build:nuxt && yarn clean && yarn copyassets",
-    "serve": "NODE_ENV=development firebase serve",
+    "serve": "firebase serve",
     "deploy": "firebase deploy",
     "predeploy": "yarn build",
     "setup": "yarn install && yarn setup:client && yarn setup:server",
     "setup:client": "cd \"src\" && yarn install",
     "setup:server": "cd \"prod/server\" && yarn install",
-    "copyassets": "yarn copydist && yarn copystatic",
-    "copydist": "cp -R prod/server/nuxt/dist/ prod/client/assets",
-    "copystatic": "cp -R src/static/ prod/client",
-    "clean": "rimraf prod/client/assets/* && rimraf prod/client/*.*",
-    "build:nuxt": "cd \"src\" && yarn build"
+    "copyassets": "yarn copyclient && yarn copynuxtconfig && yarn copyworkbox",
+    "copyworkbox": "cp -R node_modules/workbox-cdn/workbox prod/client",
+    "copyclient": "cp -R src/dist/* prod/client",
+    "copynuxtconfig": "cp -R src/nuxt.config.js prod/server",
+    "clean": "yarn cleanclient && yarn cleanserver",
+    "cleanclient": "rimraf prod/client/*",
+    "cleanserver": "rimraf prod/server/nuxt.config.js",
+    "build:nuxt": "cd \"src\" && yarn build && yarn generate"
   },
   "devDependencies": {
-    "cross-env": "^5.0.5",
-    "rimraf": "^2.6.2"
-  }
+    "cross-env": "^6.0.0",
+    "rimraf": "^3.0.0",
+    "workbox-cdn": "^4.3.1"
+  },
+  "dependencies": {}
 }
