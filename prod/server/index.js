@@ -1,5 +1,7 @@
 // process.env.DEBUG = 'nuxt:*'
 
+const IS_DEV = process.env.NODE_ENV === 'development' ? true : false
+
 const functions = require('firebase-functions')
 const { Nuxt } = require('nuxt')
 const compression = require('compression')
@@ -12,16 +14,15 @@ const nuxtConfig = require('./nuxt.config.js')
 const config = {
   ...nuxtConfig,
   dev: false,
-  debug: false,
+  debug: true,
   buildDir: 'nuxt'
 }
 const nuxt = new Nuxt(config)
 
 async function handleRequest(req, res) {
-  const isProduction = process.env.NODE_ENV === 'development' ? false : true
-  if (isProduction)
+  if (!IS_DEV) {
     res.set('Cache-Control', 'public, max-age=150, s-maxage=150')
-
+  }
   // Render with Nuxt
   // The only thing nuxt should be rendering is valid HTML
   await nuxt
