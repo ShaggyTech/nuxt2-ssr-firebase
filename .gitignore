@@ -5,6 +5,7 @@ sw.*
 backups
 
 prod/client/*
+prod/server/nuxt.config.js
 **/dist/
 **/nuxt/
 .nuxt
