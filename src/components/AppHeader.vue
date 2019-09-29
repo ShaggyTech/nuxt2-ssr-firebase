@@ -4,6 +4,7 @@
       <nuxt-link to="/">Home</nuxt-link>
       <nuxt-link to="/page2">Page 2</nuxt-link>
       <nuxt-link to="/page3">Page 3</nuxt-link>
+      <nuxt-link to="/test">Test Page</nuxt-link>
     </nav>
   </header>
 </template>
