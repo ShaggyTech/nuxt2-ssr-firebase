@@ -69,7 +69,41 @@ module.exports = {
     color: "#3B8070"
   },
 
-  manifest: {
+  generate: {
+    fallback: true
+  },
+  workbox: {
+    // globPatterns: ['**/*.{js,css}', '**/img/*'],
+    // offlinePage: '/index.html',
+    workboxURL: '/workbox/workbox-sw.js',
+    publicPath: '/',
+    config: {
+      modulePathPrefix: '/workbox/'
+    },
+    preCaching: [
+
+    ],
+    runtimeCaching: [
+      {
+        urlPattern: 'https://fonts.googleapis.com/.*',
+        handler: 'cacheFirst',
+        method: 'GET',
+        strategyOptions: { cacheableResponse: { statuses: [0, 200] } }
+      },
+      {
+        urlPattern: 'https://fonts.gstatic.com/.*',
+        handler: 'cacheFirst',
+        method: 'GET',
+        strategyOptions: { cacheableResponse: { statuses: [0, 200] } }
+      }
+    ]
+  },
+
+  manifest: {  
+    name: 'Nuxt.js PWA On Firebase Functions',
+    short_name: 'Nuxt.js Firebase',
+    lang: 'en',
+    display: 'standalone',
     theme_color: "#3B8070"
   },
   /*
@@ -81,7 +115,7 @@ module.exports = {
    ** Global CSS
    */
   css: ["~/assets/styles/main.css"],
-  buildDir: "./../prod/server/nuxt",
+  buildDir: "../prod/server/nuxt",
   build: {
     publicPath: "/assets/",
     cache: true,

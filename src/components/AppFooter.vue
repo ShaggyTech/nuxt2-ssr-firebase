@@ -1,13 +1,17 @@
 <template>
   <footer>
-    <div class="mui-container mui--text-center">
       <div class="footer-flex-item">
         Made by <a href="https://www.davidroyer.me" target="_blank" rel="noopener">David Royer</a>
       </div>
       <div class="footer-flex-item">
-        Check out this project's <a href="https://github.com/davidroyer/nuxt2-ssr-firebase" target="_blank" rel="noopener">Github Repo</a>
+        Original Source<a href="https://github.com/davidroyer/nuxt2-ssr-firebase" target="_blank" rel="noopener">Github Repo</a>
       </div>
-    </div>
+      <div class="footer-flex-item">
+        Updated by <a href="https://www.shaggytech.com" target="_blank" rel="noopener">Brandon Eichler</a>
+      </div>
+      <div class="footer-flex-item">
+        Updated Source <a href="https://github.com/ShaggyTech/nuxt2-ssr-firebase" target="_blank" rel="noopener">Github Repo</a>
+      </div>
   </footer>
 </template>
 
@@ -24,7 +28,8 @@
     border-top: 1px solid #e0e0e0;
     padding: .5em 0;
     display: flex;
-    align-items: center;
+    flex-direction: row;
+    justify-content: center;
     position: fixed;
     bottom: 0;
     left: 0;

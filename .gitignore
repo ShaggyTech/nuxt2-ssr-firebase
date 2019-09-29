@@ -3,9 +3,13 @@
 sw.*
 
 backups
-prod/client/assets/
-prod/server/nuxt/
+
+prod/client/*
+**/dist/
+**/nuxt/
+.nuxt
 .firebaserc
+*.cache
 
 .DS_Store
 **/**/.DS_Store
