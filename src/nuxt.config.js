@@ -1,5 +1,8 @@
+const isDev = process.env.NODE_ENV !== 'production'
+
 module.exports = {
   debug: true,
+  dev: isDev,
   /*
    ** Headers of the page
    */
@@ -70,11 +73,11 @@ module.exports = {
   },
 
   generate: {
-    fallback: true
+    fallback: '/index.html'
   },
   workbox: {
     // globPatterns: ['**/*.{js,css}', '**/img/*'],
-    // offlinePage: '/index.html',
+    offlinePage: '/index.html',
     workboxURL: '/workbox/workbox-sw.js',
     publicPath: '/',
     config: {
@@ -119,24 +122,7 @@ module.exports = {
   build: {
     publicPath: "/assets/",
     cache: true,
-    // babel: {
-    //   presets: [
-    //     [
-    //       'babel-preset-vue-app',
-    //       {
-    //         targets: process.server ?
-    //           {
-    //             node: '6.14.0'
-    //           } :
-    //           {
-    //             ie: 9,
-    //             uglify: true
-    //           }
-    //       }
-    //     ]
-    //   ]
-    // },
-    /*
+     /*
      ** Run ESLINT on save
      */
     extend(config, ctx) {
