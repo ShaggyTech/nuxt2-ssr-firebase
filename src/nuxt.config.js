@@ -97,20 +97,20 @@ module.exports = {
   generate: {
     fallback: '/404.html',
     exclude: [
-      // Test will be loaded from the server first time
-      /**Individual*/ /^(?=.*\btest\b).*$/,
+      // Test will be loaded from the server if directly visited for the first time
+      /**Individual*/ /^(?=.*\btest\b).*$/
       /**All Except*/ // /\b(?!index|test)\b\S+/
     ]
   },
   workbox: {
     globPatterns: ['**/*.{js,css,html}'],
     workboxURL: '/workbox/workbox-sw.js',
-    navigateFallback: '/404.html',
     publicPath: '/',
     config: {
-      modulePathPrefix: '/workbox/'
+      modulePathPrefix: '/workbox/',
+      navigateFallback: '/404.html'
     },
-    preCaching: ['index.html', '/page2', '/page3', '/workbox/workbox-sw.js'],
+    preCaching: ['index.html', '/page2', '/workbox/workbox-sw.js'],
     runtimeCaching: [
       {
         urlPattern: 'https://fonts.googleapis.com/.*',
