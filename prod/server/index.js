@@ -7,6 +7,8 @@ const { Nuxt } = require('nuxt')
 const compression = require('compression')
 const express = require('express')
 const app = express()
+const serveStatic = require('serve-static')
+const path = require('path')
 app.use(compression())
 
 const nuxtConfig = require('./nuxt.config.js')
@@ -23,28 +25,25 @@ async function handleRequest(req, res) {
   if (isDev) {
     res.set('Cache-Control', 'public, max-age=150, s-maxage=150')
   }
-  // Render with Nuxt
-  // The only thing nuxt should be rendering is valid HTML
   /**
+   * The only thing nuxt should be rendering is valid HTML, everything else is handled via the serveStatic
+   * which will look in the server directory 'nuxt/dist/client/static' for any files it can't find on the hosting server
    * Static files should be able to be placed in nuxt/dist/client/static folder and availabe
    * if the client loses those static assets and needs to ensure they are available
-   * CURRENTLY BROKEN!  Will not catch .html files but will catch all (.) files
+   * they can be retrieved from the functions server (i.e. service worker 'sw.js' file)
    */
-  if (/^[^.]+.$/.test(req.path)) {
-    console.log('FOUND HTML! at requested path: ' + req.path)
-    await nuxt
-      .renderRoute(req.path)
-      .then(({ html }) => {
-        res.send(html)
-      })
-      .catch(err => {
-        console.log(err)
-        res.redirect('/index.html')
-      })
-  } else res.sendFile(require('path').join(__dirname, '/nuxt/dist/client/static',req.path))
+  await nuxt
+    .renderRoute(req.path)
+    .then(({ html }) => {
+      res.send(html)
+    })
+    .catch(err => {
+      console.log(err)
+      res.redirect('/404.html')
+    })
 }
 
-// app.get('*', (req, res) => res.send(nuxt.render));
+app.use(serveStatic(path.join(__dirname, 'nuxt/dist/client/static')))
 app.use(handleRequest)
 
 exports.nuxtssr = functions.https.onRequest(app)
