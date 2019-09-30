@@ -15,6 +15,7 @@
 
 <script>
 export default {
+  name: 'Page3',
   async asyncData () {
     return {
       renderSource: process.static ? 'static' : (process.server ? 'server' : 'client')

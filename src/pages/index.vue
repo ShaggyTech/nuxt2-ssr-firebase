@@ -18,6 +18,7 @@
 import Logo from '~/components/Logo.vue'
 
 export default {
+  name: "HomePage",
   asyncData () {
     return {
       renderSource: process.static ? 'static' : (process.server ? 'server' : 'client')
