@@ -2,7 +2,7 @@ const isDev = process.env.NODE_ENV !== 'production'
 
 module.exports = {
   debug: true,
-  dev: false,
+  dev: isDev,
   /*
    ** Headers of the page
    */
@@ -80,7 +80,7 @@ module.exports = {
     // '/api/': { target: 'http://api.example.com', pathRewrite: { '^/api/': '' } }
   },
   sitemap: {
-    hostname: require('os').hostname(),
+    hostname: 'https://nuxt-ssr-firebase-hosting.firebaseapp.com/',
     gzip: true,
     exclude: ['/secret', '/admin/**']
     // routes: [
@@ -95,7 +95,7 @@ module.exports = {
   },
 
   generate: {
-    fallback: '/404.html',
+    fallback: true,
     exclude: [
       // Test will be loaded from the server if directly visited for the first time
       /**Individual*/ /^(?=.*\btest\b).*$/
@@ -107,10 +107,9 @@ module.exports = {
     workboxURL: '/workbox/workbox-sw.js',
     publicPath: '/',
     config: {
-      modulePathPrefix: '/workbox/',
-      navigateFallback: '/404.html'
+      modulePathPrefix: '/workbox/'
     },
-    preCaching: ['index.html', '/page2', '/workbox/workbox-sw.js'],
+    preCaching: ['index.html', '/page2', '/page3', '/workbox/workbox-sw.js'],
     runtimeCaching: [
       {
         urlPattern: 'https://fonts.googleapis.com/.*',
@@ -138,7 +137,7 @@ module.exports = {
   robots: {
     UserAgent: '*',
     Disallow: '/admin',
-    Sitemap: '/sitemap.xml.gz'
+    Sitemap: 'https://nuxt-ssr-firebase-hosting.firebaseapp.com//sitemap.xml.gz'
   },
   /*
    ** Modules
