@@ -97,31 +97,35 @@ module.exports = {
   generate: {
     fallback: true,
     exclude: [
-      // Test will be loaded from the server if directly visited for the first time
       /**Individual*/ /^(?=.*\btest\b).*$/
       /**All Except*/ // /\b(?!index|test)\b\S+/
     ]
   },
   workbox: {
     globPatterns: ['**/*.{js,css,html}'],
-    workboxURL: '/workbox/workbox-sw.js',
-    publicPath: '/',
-    config: {
-      modulePathPrefix: '/workbox/'
-    },
-    preCaching: ['index.html', '/page2', '/page3', '/workbox/workbox-sw.js'],
+    preCaching: ['index.html'],
     runtimeCaching: [
       {
-        urlPattern: 'https://fonts.googleapis.com/.*',
-        handler: 'cacheFirst',
+        urlPattern: '^https://fonts.googleapis.com/',
+        handler: 'staleWhileRevalidate',
         method: 'GET',
-        strategyOptions: { cacheableResponse: { statuses: [0, 200] } }
+        strategyOptions: {
+          cacheName: 'google-fonts-stylesheets',
+          cacheableResponse: { statuses: [0, 200] }
+        }
       },
       {
-        urlPattern: 'https://fonts.gstatic.com/.*',
+        urlPattern: '^https://fonts.gstatic.com/',
         handler: 'cacheFirst',
         method: 'GET',
-        strategyOptions: { cacheableResponse: { statuses: [0, 200] } }
+        strategyOptions: {
+          cacheName: 'google-fonts-webfonts',
+          cacheableResponse: { statuses: [0, 200] },
+          cacheExpiration: {
+            maxAgeSeconds: 60 * 60 * 24 * 365,
+            maxEntries: 30,
+          }
+        }
       }
     ]
   },
