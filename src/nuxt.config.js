@@ -162,10 +162,11 @@ module.exports = {
     publicPath: '/assets/',
     cache: true,
     /*
-     ** Run ESLINT on save
+     ** extend
      */
-    extend(config, ctx) {
-      if (process.browser) {
+    extend(config, { isDev, isClient }) {
+      // Run ESLint on save
+      if (isDev && isClient) {
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
