@@ -97,8 +97,8 @@ module.exports = {
   generate: {
     fallback: true,
     exclude: [
-      /**Individual*/ /^(?=.*\btest\b).*$/
-      /**All Except*/ // /\b(?!index|test)\b\S+/
+      /** Individual */ /^(?=.*\btest\b).*$/
+      /** All Except */ // /\b(?!index|test)\b\S+/
     ]
   },
   workbox: {
@@ -123,7 +123,7 @@ module.exports = {
           cacheableResponse: { statuses: [0, 200] },
           cacheExpiration: {
             maxAgeSeconds: 60 * 60 * 24 * 365,
-            maxEntries: 30,
+            maxEntries: 30
           }
         }
       }
@@ -171,7 +171,7 @@ module.exports = {
           enforce: 'pre',
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
-          exclude: /(node_modules)/
+          exclude: /(node_modules|nuxt|dist|client)/
         })
       }
     }

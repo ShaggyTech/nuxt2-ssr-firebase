@@ -2,11 +2,14 @@
   <section class="container">
     <div>
       <h1 class="mui--text-display1">Page 2</h1>
-      <h2 class="headline">Rendered From:<span class="render-result">{{renderSource}}</span></h2>
+      <h2 class="headline">
+        Rendered From:<span class="render-result">{{ renderSource }}</span>
+      </h2>
       <button
         id="reload-btn"
         class="mui-btn mui-btn--primary"
-        @click="reloadPage">
+        @click="reloadPage"
+      >
         Reload Page
       </button>
     </div>
@@ -16,13 +19,17 @@
 <script>
 export default {
   name: 'Page2',
-  async asyncData () {
+  asyncData() {
     return {
-      renderSource: process.static ? 'static' : (process.server ? 'server' : 'client')
+      renderSource: process.static
+        ? 'static'
+        : process.server
+        ? 'server'
+        : 'client'
     }
   },
   methods: {
-    reloadPage () {
+    reloadPage() {
       window.location.reload()
     }
   }

@@ -19,34 +19,34 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios'
 
 export default {
-  name: "TestPage",
+  name: 'TestPage',
   data() {
     return {
       now: new Date()
-    };
+    }
   },
-  created() {
-    this.dateInterval = setInterval(() => (this.now = new Date()), 1000);
-  },
-  beforeDestroy() {
-    clearInterval(this.dateInterval);
-  },
-  async asyncData() {
+  asyncData() {
     return {
       renderSource: process.static
-        ? "static"
+        ? 'static'
         : process.server
-        ? "server"
-        : "client"
-    };
+        ? 'server'
+        : 'client'
+    }
+  },
+  created() {
+    this.dateInterval = setInterval(() => (this.now = new Date()), 1000)
+  },
+  beforeDestroy() {
+    clearInterval(this.dateInterval)
   },
   methods: {
     reloadPage() {
-      window.location.reload();
+      window.location.reload()
     }
   }
-};
+}
 </script>
