@@ -10,22 +10,22 @@
 </template>
 
 <script>
-  export default {
-    name: 'AppHeader'
-  }
+export default {
+  name: 'AppHeader'
+}
 </script>
 
 <style lang="css">
-  footer {
-    box-sizing: border-box;
-    background-color: #eee;
-    border-top: 1px solid #e0e0e0;
-    padding: .5em 0;
-    display: flex;
-    align-items: center;
-  }
+footer {
+  box-sizing: border-box;
+  background-color: #eee;
+  border-top: 1px solid #e0e0e0;
+  padding: .5em 0;
+  display: flex;
+  align-items: center;
+}
 
-  .footer-flex-item {
-    margin: .5em;
-  }
+.footer-flex-item {
+  margin: .5em;
+}
 </style>

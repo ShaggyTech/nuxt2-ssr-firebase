@@ -1,13 +1,16 @@
 <template>
   <section class="container">
     <div>
-      <logo/>
+      <logo />
       <h1 class="mui--text-display1">Nuxt2 - SSR - Firebase Functions</h1>
-      <h2 class="headline">Rendered From:<span class="render-result">{{renderSource}}</span></h2>
+      <h2 class="headline">
+        Rendered From:<span class="render-result">{{ renderSource }}</span>
+      </h2>
       <button
         id="reload-btn"
         class="mui-btn mui-btn--primary"
-        @click="reloadPage">
+        @click="reloadPage"
+      >
         Reload Page
       </button>
     </div>
@@ -18,17 +21,21 @@
 import Logo from '~/components/Logo.vue'
 
 export default {
-  name: "HomePage",
-  asyncData () {
-    return {
-      renderSource: process.static ? 'static' : (process.server ? 'server' : 'client')
-    }
-  },
+  name: 'HomePage',
   components: {
     Logo
   },
+  asyncData() {
+    return {
+      renderSource: process.static
+        ? 'static'
+        : process.server
+        ? 'server'
+        : 'client'
+    }
+  },
   methods: {
-    reloadPage () {
+    reloadPage() {
       window.location.reload()
     }
   }
