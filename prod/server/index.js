@@ -1,18 +1,15 @@
 // process.env.DEBUG = 'nuxt:*'
-
-const isDev = process.env.NODE_ENV === 'development' ? true : false
-
 const functions = require('firebase-functions')
-const { Nuxt } = require('nuxt')
+const { Nuxt, Builder } = require('nuxt')
 const compression = require('compression')
-const express = require('express')
-const app = express()
 const serveStatic = require('serve-static')
 const path = require('path')
+const express = require('express')
+const app = express()
 app.use(compression())
 
+const isDev = process.env.NODE_ENV === 'development' ? true : false
 const nuxtConfig = require('./nuxt.config.js')
-
 const config = {
   ...nuxtConfig,
   dev: isDev,
@@ -43,6 +40,7 @@ async function handleRequest(req, res) {
     })
 }
 
+app.use(serveStatic(path.join(__dirname, 'nuxt/dist/client')))
 app.use(serveStatic(path.join(__dirname, 'nuxt/dist/client/static')))
 app.use(handleRequest)
 
