@@ -23,8 +23,8 @@ async function handleRequest(req, res) {
     res.set('Cache-Control', 'public, max-age=150, s-maxage=150')
   }
   /**
-   * The only thing nuxt should be rendering is valid HTML, everything else is handled via the serveStatic
-   * which will look in the server directory '~/prod/nuxt/dist/client/static' for any files it can't find on the hosting server
+   * The only thing nuxt should be rendering is valid HTML, everything else is handled via the serveStatic lines below
+   * which will look in the server directory '~/prod/nuxt/dist /client/ + /static' for any files it can't find on the hosting server
    * Static files should be able to be placed in src/static folder and availabe if the client loses those static assets
    * and needs to ensure they are available, i.e. you just don't want them served from the hosting server.
    *
