@@ -24,17 +24,20 @@ async function handleRequest(req, res) {
   }
   /**
    * The only thing nuxt should be rendering is valid HTML, everything else is handled via the serveStatic
-   * which will look in the server directory 'nuxt/dist/client/static' for any files it can't find on the hosting server
-   * Static files should be able to be placed in nuxt/dist/client/static folder and availabe
-   * if the client loses those static assets and needs to ensure they are available
-   * they can be retrieved from the functions server (i.e. service worker 'sw.js' file)
+   * which will look in the server directory '~/prod/nuxt/dist/client/static' for any files it can't find on the hosting server
+   * Static files should be able to be placed in src/static folder and availabe if the client loses those static assets
+   * and needs to ensure they are available, i.e. you just don't want them served from the hosting server.
+   *
+   * If requested from the client and not available on the hosting server, they will be sent
+   * from the functions server. They can be retrieved from the functions server
+   * i.e. service worker 'sw.js' file that is generated in src/static but also provided to the hosting server
    */
   await nuxt
     .renderRoute(req.path)
     .then(({ html }) => {
       res.send(html)
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err)
       res.redirect('/404.html')
     })
