@@ -2,13 +2,14 @@
 const path = require('path')
 const functions = require('firebase-functions')
 const { Nuxt, Builder } = require('nuxt')
+const consola = require('consola')
+const express = require('express')
 const compression = require('compression')
 const serveStatic = require('serve-static')
-const express = require('express')
 const app = express()
-app.use(compression())
 
 const isDev = process.env.NODE_ENV === 'development'
+
 const nuxtConfig = require('./nuxt.config.js')
 const config = {
   ...nuxtConfig,
@@ -21,6 +22,9 @@ const nuxt = new Nuxt(config)
 async function handleRequest(req, res) {
   if (isDev) {
     res.set('Cache-Control', 'public, max-age=150, s-maxage=150')
+    consola.info(
+      `A file at ${req.url} was requested by the client and served by the functions server.`
+    )
   }
   /**
    * The only thing nuxt should be rendering is valid HTML, everything else is handled via the serveStatic lines below
@@ -32,18 +36,32 @@ async function handleRequest(req, res) {
    * from the functions server. They can be retrieved from the functions server
    * i.e. service worker 'sw.js' file that is generated in src/static but also provided to the hosting server
    */
-  await nuxt
-    .renderRoute(req.path)
-    .then(({ html }) => {
-      res.send(html)
-    })
-    .catch(err => {
-      console.log(err)
-      res.redirect('/404.html')
-    })
+
+  /** Render the req with Nuxt */
+  const {
+    html /** String */,
+    error /** (null|Object) */,
+    redirected /** (null|Object) */
+  } = await nuxt.renderRoute(req.url).catch(err => {
+    console.log(err)
+    res.redirect('404.html')
+  })
+
+  if (html) {
+    consola.log(`nuxt renderRoute html: ${req.path}`)
+    res.send(html)
+  } else if (redirected) {
+    consola.log(`nuxt renderRoute redirected: ${req.path}`)
+    res.redirect(redirected.path)
+  } else if (error) {
+    consola.log(`nuxt renderRoute error: ${req.path} --error-- ${error}`)
+    res.redirect('/404.html')
+  }
 }
 
-app.use(serveStatic(path.join(__dirname, 'nuxt/dist/client')))
+app.use(compression())
+app.use('/', express.static(path.join(__dirname, 'nuxt', 'dist')))
+app.use('/assets/', serveStatic(path.join(__dirname, 'nuxt/dist/client')))
 app.use(serveStatic(path.join(__dirname, 'nuxt/dist/client/static')))
 app.use(handleRequest)
 
