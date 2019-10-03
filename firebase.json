@@ -38,7 +38,7 @@
         ]
       },
       {
-        "source": "**/*.@(jpg|jpeg|gif|png)",
+        "source": "**/*.@(jpg|jpeg|gif|png|ico)",
         "headers": [
           {
             "key": "Cache-Control",
@@ -48,6 +48,10 @@
       }
     ],
     "rewrites": [
+      {
+        "source": "**/sw.js",
+        "destination": "/sw.js"
+      },
       {
         "source": "**/**",
         "function": "nuxtssr"

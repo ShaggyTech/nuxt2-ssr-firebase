@@ -5,6 +5,9 @@
   "license": "MIT",
   "author": "David Royer",
   "repository": "https://github.com/davidroyer/nuxt-ssr-firebase",
+  "engines": {
+    "node": "10"
+  },
   "scripts": {
     "dev": "cd \"src\" && yarn dev",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
