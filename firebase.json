@@ -1,11 +1,10 @@
 {
+  "functions": {
+    "source": "prod/server"
+  },
   "hosting": {
     "public": "prod/client",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "headers": [
       {
         "source": "**/*.@(eot|otf|ttf|ttc|woff|font.css)",
@@ -17,19 +16,6 @@
           {
             "key": "Cache-Control",
             "value": "max-age=86400"
-          }
-        ]
-      },
-      {
-        "source": "**/workbox/**",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "max-age=86400"
-          },
-          {
-            "key": "Content-Type",
-            "value": "application/javascript"
           }
         ]
       },
@@ -67,8 +53,5 @@
         "function": "nuxtssr"
       }
     ]
-  },
-  "functions": {
-    "source": "prod/server"
   }
 }
