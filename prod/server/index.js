@@ -1,5 +1,3 @@
-// process.env.DEBUG = 'nuxt:*'
-
 /**************************************
  * Constants
  **************************************/
@@ -112,4 +110,5 @@ app.use(
   })
 )
 
+/** nuxtssr function exported for Firebase Functions */
 exports.nuxtssr = functions.https.onRequest(app)
