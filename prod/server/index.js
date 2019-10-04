@@ -29,23 +29,26 @@ async function nuxtHandler(req, res) {
     res.set('Cache-Control', 'public, max-age=150, s-maxage=150')
     consola.info(`Dev Cache Control Set`)
   }
+
   /** Render the req with Nuxt renderRoute() */
   const {
     html /** String */,
     error /** (null|Object) */,
     redirected /** (false|Object) */
   } = await nuxt.renderRoute(req.url).catch(err => {
-    consola.err(`Nuxt render error - ${err} || STACK:: ${err.stack}`)
+    consola.err(`Nuxt render error - ${err} || Stack:: ${err.stack}`)
     res.redirect('/404.html')
   })
 
   if (html) {
     res.send(html)
   } else if (redirected) {
-    res.redirect(redirected.path)
+    res.redirect(path.join(__dirname, redirected.path))
   } else if (error) {
-    consola.info(`nuxt renderRoute error: ${req.path} --error-- ${error}`)
-    res.send(`Nuxt renderRouter error: ${error}`)
+    consola.info(`Nuxt renderRoute error: ${req.path} --error-- ${error}`)
+    isDev
+      ? res.send(`Nuxt renderRouter error: ${error}`)
+      : res.redirect('/404.html')
   }
 }
 
