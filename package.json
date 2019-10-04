@@ -15,6 +15,7 @@
     "precommit": "yarn lint",
     "build": "yarn clean:all && yarn build:nuxt && yarn copy:all",
     "serve": "firebase serve",
+    "serve:dev": "cross-env NODE_ENV=development firebase serve",
     "deploy": "firebase deploy",
     "predeploy": "yarn build",
     "setup": "yarn install && yarn setup:client && yarn setup:server",
