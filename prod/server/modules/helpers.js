@@ -11,7 +11,7 @@ const asyncErrorCatcher = fn => {
 }
 
 const Helpers = {
-  asyncErrorCatcher
+  errHandler: asyncErrorCatcher
 }
 
 module.exports = Helpers

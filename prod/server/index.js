@@ -15,7 +15,7 @@ const compression = require('compression')
 const serveStatic = require('serve-static')
 
 /** Server Modules */
-const Helpers = require('./modules/helpers')
+const { errHandler } = require('./modules/helpers')
 
 /** See if we're running in Node Development Mode */
 const isDev = process.env.NODE_ENV === 'development'
@@ -53,6 +53,7 @@ async function nuxtHandler(req, res) {
     res.redirect('/404.html')
   })
 
+  /** Do something with the rendered route */
   if (html) {
     res.send(html)
   } else if (redirected) {
@@ -62,7 +63,7 @@ async function nuxtHandler(req, res) {
     consola.info(`Nuxt renderRoute Error: ${req.path} --error-- ${error}`)
     isDev
       ? res.send(`Nuxt renderRouter Error: ${error}`)
-      : res.redirect(__dirname, '/404.html')
+      : res.redirect(path.join(__dirname, '/404.html'))
   }
 }
 
@@ -88,7 +89,8 @@ app.use((err, req, res, next) => {
  * FYI: the client (hosting server) isn't actually required to have any files on it
  * This would, in theory, allow us to host the entire website through firebase functions
  * although in practice this is ill-advised due to long load times and function server invocations
- * Try: Deleting everything from the client folder EXCEPT sw.js, and see how that affects load times
+ * Try: Deleting everything from the prod/client folder EXCEPT for the service worker (sw.js)
+ * and observe how that affects load times
  */
 app.use(serveStatic(path.join(__dirname, 'nuxt', 'dist')))
 app.use(serveStatic(path.join(__dirname, 'nuxt/dist/client/static')))
@@ -97,14 +99,14 @@ app.use('/assets/', serveStatic(path.join(__dirname, 'nuxt/dist/client')))
 /** Nuxt Render */
 app.use(
   '*',
-  Helpers.asyncErrorCatcher(async (req, res, next) => {
+  errHandler(async (req, res, next) => {
     await nuxt.render(req, res)
     next()
   })
 )
 /** Nuxt Render Route */
 app.use(
-  Helpers.asyncErrorCatcher(async (req, res, next) => {
+  errHandler(async (req, res, next) => {
     await nuxtHandler(req, res)
     next()
   })
